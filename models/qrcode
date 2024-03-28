@@ -1,0 +1,29 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const QrCodeSchema = new Schema({
+  studentId: {
+    type: String,
+    required: true
+  },
+
+  studentName:{
+    type:String,
+    required:true
+  },
+  exitTime: {
+    type: Date,
+    default: Date.now
+  },
+  qrCodeData: { // Encoded QR code data
+    type: String, // Assuming the QR code data will be stored as a string
+    required: true
+  },
+  used: { // Flag to indicate if the QR code has been used for exit
+    type: Boolean,
+    default: false
+  }
+});
+
+module.exports = mongoose.model('QrCode', QrCodeSchema);
+

@@ -1,0 +1,60 @@
+const mongoose = require("mongoose")
+const entryLog = new mongoose.Schema(
+    {
+        securityId:{
+            type : mongoose.Schema.Types.ObjectId,
+            required : true,
+            ref : "security"
+        },
+        name:{
+            type:String,
+            required:true
+        },
+        description:{
+            type:String,
+            required:true
+        },
+        phoneno:{
+            type:String,
+            required:true
+        },
+        typeofuser:{
+            type:String,
+            require:true
+        },
+        vehicle:{
+            type:String,
+            required:true
+        },
+        vehicleNumber:{
+            type:String,
+            default: "no"
+        },
+        vehicleName:{
+            type:String,
+            default: "no"
+        },
+        vehicleType:{
+            type:String,
+            default: "no"
+        },
+        eventType:{
+            type:String,
+            required:true
+        },
+        date:{
+            type : Date,
+            default:Date.now
+        },
+        entryTime:{
+            type : String,
+            default:null
+        },
+        exitTime: {
+            type: String,
+            default: "nill" 
+        }
+    }
+)
+
+module.exports = mongoose.model("entryLog",entryLog)

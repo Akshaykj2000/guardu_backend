@@ -1,0 +1,31 @@
+const mongoose=require("mongoose")
+
+const securitySchema=new mongoose.Schema(
+    {
+        name:{
+            type:String,
+            required:true
+        },
+        contactno:{
+            type:String,
+            required:true
+        },
+        post:{
+            type:String,
+            required:true
+        },
+        emailid:{
+            type:String,
+            required:true
+        },
+
+       
+        password:{
+            type:String, 
+            required:true
+        }
+        
+    }
+)
+
+module.exports=mongoose.model("security",securitySchema)

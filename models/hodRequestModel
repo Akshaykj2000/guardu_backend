@@ -1,0 +1,41 @@
+const mongoose = require("mongoose")
+
+const requestview = new mongoose.Schema(
+    {
+        hodId:{
+            type : mongoose.Schema.Types.ObjectId,
+            required : true,
+            ref : "hod"
+        },
+        studentId:{
+            type : mongoose.Schema.Types.ObjectId,
+            required : true,
+            ref : "student"
+        },
+        subject:{
+            type:String,
+            required:true
+        },
+        description:{
+            type:String,
+            required:true
+        },
+        department:{
+            type:String,
+            required:true
+        },
+        nopeople:{
+            type:String,
+            required:true
+        },
+        names:{
+            type:String
+        },    
+        status:{
+            type:String
+        },
+
+    }
+)
+
+module.exports = mongoose.model("requestview",requestview)

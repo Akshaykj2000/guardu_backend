@@ -1,0 +1,116 @@
+const express = require("express")
+const hodModel=require("../models/hod")
+const securityModel =require("../models/security")
+const entryModel =require("../models/entryLogModel")
+
+const router=express.Router()
+
+router.post("/securitylogin",async(req,res)=>{
+    let input=req.body
+    let emailid=req.body.emailid
+    let data=await securityModel.findOne({"emailid":emailid})
+    
+    if (!data) {
+        return res.json({
+            status:"Invalid user"
+        })
+    }
+
+    console.log(data)
+    let dbpassword=data.password
+    let inputpassword=req.body.password
+    console.log(dbpassword)
+    console.log(inputpassword)
+    
+    if (inputpassword !== dbpassword) {
+        return res.json({
+            status:"Incorrect password"
+        })
+    }
+    else {
+        res.json({status:"success","userdata":data })
+    }
+    
+})
+
+
+router.post("/entrylog", async (req, res) => {
+    try {
+        let data = req.body;
+        const currentDate = new Date().toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        
+        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true });
+        const entryTime = `${currentDate} ${currentTime}`;
+        data.entryTime = entryTime;
+
+        let package = new entryModel(data);
+        let result = await package.save();
+        res.json({ status: "success" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
+
+
+
+
+router.get("/viewvehicleentry",async(req,res)=>{
+
+    let data = await entryModel.find({vehicle: "yes"}).sort({entryTime:-1});
+    res.json(data)
+
+})
+
+router.get("/viewgustentry",async(req,res)=>{
+
+    let data = await entryModel.find({vehicle: "no"}).sort({entryTime:-1});
+    res.json(data)
+
+})
+
+
+router.get("/viewNullEntry", async (req, res) => {
+      
+        const data = await entryModel.find({ exitTime:"nill",vehicle: "yes" }).sort({entryTime:-1});
+        res.json(data);
+    
+});
+
+router.get("/viewGustEntry", async (req, res) => {
+      
+    const data = await entryModel.find({ exitTime:"nill",vehicle: "no" }).sort({entryTime:-1});
+    res.json(data);
+
+});
+
+
+
+  router.post("/updateExit", async (req, res) => {
+    try {
+        const id = req.body._id;
+        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: true });
+
+        const updatedEntry = await entryModel.findByIdAndUpdate(id, { exitTime: currentTime }, { new: true });
+
+        if (!updatedEntry) {
+            return res.status(404).json({ error: "Entry not found" });
+        }
+
+        res.json({status:"updated"});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.get("/all",async(req,res)=>{
+
+    let data = await entryModel.find()
+    res.json(data)
+
+})
+
+module.exports=router
