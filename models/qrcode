@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 const QrCodeSchema = new Schema({
   studentId: {
     type: String,
-    required: true
+    required: true,
+    ref:"student"
+  },
+
+  admissionno:{
+  type:String
   },
 
   studentName:{
@@ -15,11 +20,11 @@ const QrCodeSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  qrCodeData: { // Encoded QR code data
-    type: String, // Assuming the QR code data will be stored as a string
+  qrCodeData: { 
+    type: String, 
     required: true
   },
-  used: { // Flag to indicate if the QR code has been used for exit
+  used: { 
     type: Boolean,
     default: false
   }

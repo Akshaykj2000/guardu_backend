@@ -6,6 +6,7 @@ const student=require("./controllers/studentRoute")
 const hod=require("./controllers/hodRoute")
 const admin=require("./controllers/adminRoute")
 const security=require("./controllers/securityRoute")
+const qrcode=require("./controllers/qrcodeRoute")
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use("/student",student)
 app.use("/hod",hod)
 app.use("/admin",admin)
 app.use("/security",security)
+app.use("/qrcode",qrcode)
 
 app.listen("3001",()=>{
     console.log("Server running...")
