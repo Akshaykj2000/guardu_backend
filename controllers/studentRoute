@@ -1,6 +1,6 @@
 const express=require("express")
 const studentModel=require("../models/student")
-const multer = require("multer")
+const  requestModel=require("../models/hodRequestModel")
 
 const router=express.Router()
 
@@ -103,6 +103,29 @@ router.get("/allstudents",async(req,res)=>{
     res.json(data)
 
 })
+
+
+
+router.post("/requestMessage",async(req,res)=>{
+    let data=req.body
+    let package=new requestModel(data)
+    let result=await package.save()
+    res.json({
+        status:"success"
+    })  
+})
+
+//for hod to see requests for him
+router.post("/requestDetails", async (req, res) => {
+    try {
+        const { hodId } = req.body; // Assuming hodId is sent through the request body
+        let data = await requestModel.find({ hodId });
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 
 

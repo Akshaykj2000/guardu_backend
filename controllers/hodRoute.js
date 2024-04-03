@@ -54,6 +54,19 @@ router.post("/login",async(req,res)=>{
 })
 
 
+// API endpoint to retrieve names and IDs of HODs with specified department
+
+router.post("/getHODsByDepartment", async (req, res) => {
+    try {
+        const { department } = req.body; // Assuming department is sent through the request body
+        const hodList = await hodModel.find({ department }, { _id: 1, hodname: 1 }); // Projection to include only _id and name fields
+        res.json(hodList);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 
 module.exports=router

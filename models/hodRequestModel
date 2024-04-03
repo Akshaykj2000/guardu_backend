@@ -26,13 +26,15 @@ const requestview = new mongoose.Schema(
         },
         nopeople:{
             type:String,
-            required:true
+             default: "nill" 
         },
         names:{
-            type:String
+            type:String,
+             default: "nill" 
         },    
         status:{
-            type:String
+            type:String,
+            default: "pending"
         },
 
     }
