@@ -3,13 +3,14 @@ const QrCode=require("../models/qrcode")
 const qr = require('qr-image');
 const Student=require("../models/student")
 const studentExitModel=require("../models/studentExitModel")
+const  requestModel=require("../models/hodRequestModel")
 
 const router=express.Router()
 
 
 router.post('/createQrCode', async (req, res) => {
     try {
-        const { studentName, studentId, admissionno } = req.body;
+        const { studentName, studentId, admissionno, requestId } = req.body;
 
         // Generate QR code data from studentName and admissionNumber
         const qrCodeData = generateQRCode(studentName, admissionno);
@@ -25,12 +26,18 @@ router.post('/createQrCode', async (req, res) => {
         // Save the QR code document to the database
         await qrCode.save();
 
-        res.status(201).json({ success: true, message: 'QR code created successfully' });
+        await requestModel.findByIdAndUpdate( requestId , { status: "accepted" });
+
+       // res.status(201).json({ success: true, message: 'QR code created successfully' });
+       res.json({status:"success"}) 
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Failed to create QR code' });
     }
 });
+
+
 
 // Function to generate QR code data
 function generateQRCode(studentName, admissionno) {

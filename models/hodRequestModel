@@ -36,6 +36,10 @@ const requestview = new mongoose.Schema(
             type:String,
             default: "pending"
         },
+        sendTime:{
+            type : String,
+            default:"nill"
+        },
 
     }
 )

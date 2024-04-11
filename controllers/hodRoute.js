@@ -59,7 +59,7 @@ router.post("/login",async(req,res)=>{
 router.post("/getHODsByDepartment", async (req, res) => {
     try {
         const { department } = req.body; // Assuming department is sent through the request body
-        const hodList = await hodModel.find({ department }, { _id: 1, hodname: 1 }); // Projection to include only _id and name fields
+        const hodList = await hodModel.find({ department }, { _id: 1, hodname: 1 ,department:1, phone:1,email:1 }); // Projection to include only _id and name fields
         res.json(hodList);
     } catch (error) {
         res.status(500).json({ error: error.message });
