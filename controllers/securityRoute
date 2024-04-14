@@ -2,6 +2,7 @@ const express = require("express")
 const hodModel=require("../models/hod")
 const securityModel =require("../models/security")
 const entryModel =require("../models/entryLogModel")
+const studentExitModel=require("../models/studentExitModel")
 
 const router=express.Router()
 
@@ -79,7 +80,7 @@ router.get("/viewNullEntry", async (req, res) => {
     
 });
 
-router.get("/viewGustEntry", async (req, res) => {
+router.get("/viewEntry", async (req, res) => {
       
     const data = await entryModel.find({ exitTime:"nill",vehicle: "no" }).sort({entryTime:-1});
     res.json(data);
@@ -112,5 +113,14 @@ router.get("/all",async(req,res)=>{
     res.json(data)
 
 })
+
+
+router.get("/viewStudentExit",async(req,res)=>{
+
+    let data = await studentExitModel.find().sort({exitTime:-1});
+    res.json(data)
+
+})
+
 
 module.exports=router
